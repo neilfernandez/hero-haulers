@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Haulers - "You Call, We Haul"</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 60px;
+            filter: brightness(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffd700;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23333" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .veteran-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #B22234, #3C3B6E);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(178, 34, 52, 0.3);
+            border: 2px solid #ffd700;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .veteran-highlight {
+            font-size: 1.2rem;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+            color: #000;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #ffd700;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 80px 0;
+            background: #000;
+            color: white;
+        }
+
+        .gallery .section-title {
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            height: 250px;
+            background: linear-gradient(135deg, #333 0%, #555 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 60px rgba(255, 215, 0, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffd700;
+            font-size: 3rem;
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+        }
+
+        .gallery-placeholder span {
+            font-size: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(255,215,0,0.3));
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay p {
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+        }
+
+        .contact .section-title {
+            color: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .contact-form {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .contact-form h3 {
+            color: #ffd700;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-row {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row label {
+            display: block;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-row input,
+        .form-row select,
+        .form-row textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .form-row input::placeholder,
+        .form-row textarea::placeholder {
+            color: #999;
+        }
+
+        .form-row input:focus,
+        .form-row select:focus,
+        .form-row textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+
+        .form-row textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-submit {
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+            color: #000;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .setup-note {
+            background: rgba(178, 34, 52, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border-left: 4px solid #B22234;
+            font-size: 0.9rem;
+        }
+
+        .setup-note h4 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .setup-note p {
+            color: #ccc;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-right: 1.5rem;
+            width: 50px;
+        }
+
+        .contact-details h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+        }
+
+        .contact-details p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        .phone-number {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .footer-logo {
+            height: 80px;
+            margin-bottom: 1rem;
+            filter: brightness(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .services-grid,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card,
+        .gallery-item {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(even) { animation-delay: 0.2s; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDQwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMDAgODBMMTIwIDUwTDI4MCA1MEwyODAgMTEwTDEyMCAxMTBMMTAwIDgwWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZkNzAwIiBzdHJva2Utd2lkdGg9IjIiLz4KPHN0YXIgY3g9IjEzNSIgY3k9IjM1IiByPSI4IiBmaWxsPSIjZmZkNzAwIi8+CjxzdGFyIGN4PSIxNjAiIGN5PSIzNSIgcj0iOCIgZmlsbD0iI2ZmZDcwMCIvPgo8c3RhciBjeD0iMTg1IiBjeT0iMzUiIHI9IjgiIGZpbGw9IiNmZmQ3MDAiLz4KPHRleHQgeD0iMjAiIHk9IjEwNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI2ZmZDcwMCI+SEVSTCBIQVVMRVRT48L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC1zdHlsZT0iaXRhbGljIiBmaWxsPSIjZmZkNzAwIj4ieW91IGNhbGwsIHdlIGhhdWwiPC90ZXh0Pgo8L3N2Zz4K" alt="Hero Haulers Logo" class="logo">
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="veteran-badge">🇺🇸 Veteran Owned & Operated</div>
+                <h1>HERO HAULERS</h1>
+                <p>"You Call, We Haul"</p>
+                <div class="veteran-highlight">
+                    <span>🎖️</span>
+                    <span>Serving Our Community with Military Precision</span>
+                    <span>🎖️</span>
+                </div>
+                <a href="#contact" class="cta-button">Get Started Today</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🗑️</div>
+                    <h3>Trash Bin Rentals</h3>
+                    <p>Professional waste disposal solutions for residential and commercial projects. Clean, reliable bins delivered when you need them.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3>Residential Service</h3>
+                    <p>Perfect for home renovations, cleanouts, and large residential projects. We make waste management simple and affordable.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏗️</div>
+                    <h3>Commercial Service</h3>
+                    <p>Reliable waste management for contractors, businesses, and construction sites. Professional service you can count on.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 4rem; padding: 2.5rem; background: linear-gradient(135deg, rgba(178, 34, 52, 0.1), rgba(60, 59, 110, 0.1)); border-radius: 20px; border: 2px solid rgba(255, 215, 0, 0.3);">
+                <h3 style="color: #ffd700; margin-bottom: 1.5rem; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; gap: 15px;">
+                    <span>🎖️</span>
+                    <span>Veteran-Owned Business</span>
+                    <span>🎖️</span>
+                </h3>
+                <p style="color: #333; font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                    As a veteran-owned business, we bring the same dedication, discipline, and commitment to excellence that served our country to every job we complete. When you choose Hero Haulers, you're supporting a local veteran and getting service you can trust.
+                </p>
+                <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: #B22234; margin-bottom: 0.5rem;">⚡</div>
+                        <div style="font-weight: bold; color: #333;">Reliable Service</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: #3C3B6E; margin-bottom: 0.5rem;">🎯</div>
+                        <div style="font-weight: bold; color: #333;">Mission-Focused</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: #ffd700; margin-bottom: 0.5rem;">🏆</div>
+                        <div style="font-weight: bold; color: #333;">Honor & Integrity</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Our Work</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        🚚
+                        <span>Professional bin delivery and pickup service</span>
+                    </div>
+                    <div class="gallery-overlay">
+                        <p>Professional Bin Delivery</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        🗑️
+                        <span>Clean, well-maintained bins for your project</span>
+                    </div>
+                    <div class="gallery-overlay">
+                        <p>Quality Equipment</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        ⏰
+                        <span>Scheduled pickup and delivery on time</span>
+                    </div>
+                    <div class="gallery-overlay">
+                        <p>Timely Service</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        🏠
+                        <span>Residential and commercial waste solutions</span>
+                    </div>
+                    <div class="gallery-overlay">
+                        <p>Residential & Commercial</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        🚛
+                        <span>Clean and professional hauling equipment</span>
+                    </div>
+                    <div class="gallery-overlay">
+                        <p>Professional Equipment</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        ✨
+                        <span>Clean service areas after pickup</span>
+                    </div>
+                    <div class="gallery-overlay">
+                        <p>Clean & Professional</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Photo Upload Instructions -->
+            <div style="text-align: center; margin-top: 3rem; padding: 2.5rem; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 2px dashed rgba(255, 215, 0, 0.4);">
+                <h3 style="color: #ffd700; font-size: 1.5rem; margin-bottom: 1.5rem;">📸 Add Your Photos Here</h3>
+                <div style="background: rgba(0,0,0,0.2); padding: 2rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                    <p style="color: #ccc; font-size: 1rem; margin-bottom: 1rem; font-family: monospace;">
+                        &lt;!-- Replace the gallery-placeholder divs above with your actual photos --&gt;<br>
+                        &lt;img src="path/to/your/photo1.jpg" alt="Bin delivery in action"&gt;
+                    </p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: left;">
+                    <div>
+                        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">📋 Photo Ideas:</h4>
+                        <ul style="color: #ccc; font-size: 0.9rem; margin: 0; padding-left: 1rem;">
+                            <li>Truck delivering bins</li>
+                            <li>Clean bins ready for use</li>
+                            <li>Pickup in progress</li>
+                            <li>Before/after job sites</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">💡 Tips:</h4>
+                        <ul style="color: #ccc; font-size: 0.9rem; margin: 0; padding-left: 1rem;">
+                            <li>Use JPG or PNG format</li>
+                            <li>Keep files under 2MB</li>
+                            <li>Show your professional service</li>
+                            <li>Include your truck/equipment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3>📝 Request Service</h3>
+                    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                        <div class="form-row">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="address">Service Address</label>
+                            <input type="text" id="address" name="address" placeholder="Street address, city, state">
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="service-type">Service Type</label>
+                            <select id="service-type" name="service-type">
+                                <option value="">Select service type</option>
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="construction">Construction/Contractor</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="timeline">When do you need service?</label>
+                            <select id="timeline" name="timeline">
+                                <option value="">Select timeline</option>
+                                <option value="asap">ASAP</option>
+                                <option value="this-week">This week</option>
+                                <option value="next-week">Next week</option>
+                                <option value="flexible">Flexible</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="message">Project Details</label>
+                            <textarea id="message" name="message" placeholder="Tell us about your project, how long you'll need the bin, and any special requirements..."></textarea>
+                        </div>
+                        
+                        <input type="hidden" name="_subject" value="New Service Request - Hero Haulers">
+                        <button type="submit" class="form-submit">Send Request</button>
+                    </form>
+                    
+                    <div class="setup-note">
+                        <h4>🚨 Setup Required</h4>
+                        <p><strong>To receive emails:</strong> Replace YOUR_FORM_ID with your actual Formspree form ID</p>
+                        <p><strong>Alternative:</strong> Use Netlify Forms or EmailJS</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h4>Call Us</h4>
+                            <p><a href="tel:845-863-3072" class="phone-number">845-863-3072</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Service Area</h4>
+                            <p>Local area and surrounding communities</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <h4>Hours</h4>
+                            <p>Available for scheduling<br>Prompt and reliable service</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <h3 style="color: #ffd700; margin-bottom: 1.5rem; font-size: 1.8rem;">Why Choose Hero Haulers?</h3>
+                        <div style="background: rgba(178, 34, 52, 0.1); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid #B22234;">
+                            <p style="color: #ffd700; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">
+                                <span>🇺🇸</span>
+                                <span>VETERAN OWNED & OPERATED</span>
+                            </p>
+                            <p style="color: #ccc; font-size: 0.95rem; margin: 0;">Supporting veterans and serving our community with military-grade excellence</p>
+                        </div>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
+                                Military precision and reliability
+                            </li>
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
+                                Professional and reliable service
+                            </li>
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
+                                Clean, well-maintained equipment
+                            </li>
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
+                                Timely delivery and pickup
+                            </li>
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
+                                Competitive pricing
+                            </li>
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
+                                Local veteran business you can trust
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDQwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMDAgODBMMTIwIDUwTDI4MCA1MEwyODAgMTEwTDEyMCAxMTBMMTAwIDgwWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZkNzAwIiBzdHJva2Utd2lkdGg9IjIiLz4KPHN0YXIgY3g9IjEzNSIgY3k9IjM1IiByPSI4IiBmaWxsPSIjZmZkNzAwIi8+CjxzdGFyIGN4PSIxNjAiIGN5PSIzNSIgcj0iOCIgZmlsbD0iI2ZmZDcwMCIvPgo8c3RhciBjeD0iMTg1IiBjeT0iMzUiIHI9IjgiIGZpbGw9IiNmZmQ3MDAiLz4KPHRleHQgeD0iMjAiIHk9IjEwNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI2ZmZDcwMCI+SEVSTCBIQVVMRVRT48L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC1zdHlsZT0iaXRhbGljIiBmaWxsPSIjZmZkNzAwIj4ieW91IGNhbGwsIHdlIGhhdWwiPC90ZXh0Pgo8L3N2Zz4K" alt="Hero Haulers Logo" class="footer-logo">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 1rem;">
+                <span style="color: #B22234; font-size: 1.5rem;">🇺🇸</span>
+                <span style="color: #ffd700; font-weight: bold; font-size: 1.1rem;">PROUDLY VETERAN OWNED</span>
+                <span style="color: #B22234; font-size: 1.5rem;">🇺🇸</span>
+            </div>
+            <p>&copy; 2025 Hero Haulers. All rights reserved. | Serving our community with honor.</p>
+        </div>
+    </footer>
+</body>
+</html>
