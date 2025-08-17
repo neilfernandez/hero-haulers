@@ -1,854 +1,1378 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero Haulers - "You Call, We Haul"</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            height: 60px;
-            filter: brightness(1.1);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #ffd700;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ffd700;
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
-            color: white;
-            padding: 120px 0 80px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23333" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .veteran-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #B22234, #3C3B6E);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(178, 34, 52, 0.3);
-            border: 2px solid #ffd700;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            background: linear-gradient(45deg, #ffd700, #ffed4a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .veteran-highlight {
-            font-size: 1.2rem;
-            color: #ffd700;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(45deg, #ffd700, #ffed4a);
-            color: #000;
-            padding: 15px 40px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
-        }
-
-        /* Services Section */
-        .services {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(45deg, #ffd700, #ffed4a);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
-        }
-
-        .service-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-        }
-
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            color: #ffd700;
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .service-card p {
-            color: #666;
-            line-height: 1.8;
-        }
-
-        /* Gallery Section */
-        .gallery {
-            padding: 80px 0;
-            background: #000;
-            color: white;
-        }
-
-        .gallery .section-title {
-            color: white;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
-            transition: all 0.3s ease;
-            height: 250px;
-            background: linear-gradient(135deg, #333 0%, #555 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 25px 60px rgba(255, 215, 0, 0.3);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.3s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .gallery-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ffd700;
-            font-size: 3rem;
-            border: 2px dashed rgba(255, 215, 0, 0.3);
-        }
-
-        .gallery-placeholder span {
-            font-size: 1rem;
-            margin-top: 1rem;
-            text-align: center;
-            padding: 0 1rem;
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(255,215,0,0.3));
-            opacity: 0;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-
-        .gallery-overlay p {
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: white;
-        }
-
-        .contact .section-title {
-            color: white;
-        }
-
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 4rem;
-        }
-
-        .contact-form {
-            background: rgba(255, 215, 0, 0.1);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 2px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .contact-form h3 {
-            color: #ffd700;
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .form-row {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-row label {
-            display: block;
-            color: #ffd700;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .form-row input,
-        .form-row select,
-        .form-row textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            font-size: 1rem;
-            font-family: Arial, sans-serif;
-            box-sizing: border-box;
-        }
-
-        .form-row input::placeholder,
-        .form-row textarea::placeholder {
-            color: #999;
-        }
-
-        .form-row input:focus,
-        .form-row select:focus,
-        .form-row textarea:focus {
-            outline: none;
-            border-color: #ffd700;
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
-        }
-
-        .form-row textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-submit {
-            background: linear-gradient(45deg, #ffd700, #ffed4a);
-            color: #000;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .form-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
-        }
-
-        .setup-note {
-            background: rgba(178, 34, 52, 0.1);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-            border-left: 4px solid #B22234;
-            font-size: 0.9rem;
-        }
-
-        .setup-note h4 {
-            color: #ffd700;
-            margin-bottom: 1rem;
-        }
-
-        .setup-note p {
-            color: #ccc;
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-info {
-            background: rgba(255, 215, 0, 0.1);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 2px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .contact-icon {
-            font-size: 2rem;
-            color: #ffd700;
-            margin-right: 1.5rem;
-            width: 50px;
-        }
-
-        .contact-details h4 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #ffd700;
-        }
-
-        .contact-details p {
-            color: #ccc;
-            font-size: 1.1rem;
-        }
-
-        .phone-number {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
-
-        /* Footer */
-        footer {
-            background: #000;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-        }
-
-        .footer-logo {
-            height: 80px;
-            margin-bottom: 1rem;
-            filter: brightness(1.1);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1.2rem;
-            }
-
-            .services-grid,
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .service-card,
-        .gallery-item {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
-        .service-card:nth-child(3) { animation-delay: 0.4s; }
-        .gallery-item:nth-child(even) { animation-delay: 0.2s; }
-    </style>
-</head>
-<body>
-    <header>
-        <nav class="container">
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDQwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMDAgODBMMTIwIDUwTDI4MCA1MEwyODAgMTEwTDEyMCAxMTBMMTAwIDgwWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZkNzAwIiBzdHJva2Utd2lkdGg9IjIiLz4KPHN0YXIgY3g9IjEzNSIgY3k9IjM1IiByPSI4IiBmaWxsPSIjZmZkNzAwIi8+CjxzdGFyIGN4PSIxNjAiIGN5PSIzNSIgcj0iOCIgZmlsbD0iI2ZmZDcwMCIvPgo8c3RhciBjeD0iMTg1IiBjeT0iMzUiIHI9IjgiIGZpbGw9IiNmZmQ3MDAiLz4KPHRleHQgeD0iMjAiIHk9IjEwNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI2ZmZDcwMCI+SEVSTCBIQVVMRVRT48L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC1zdHlsZT0iaXRhbGljIiBmaWxsPSIjZmZkNzAwIj4ieW91IGNhbGwsIHdlIGhhdWwiPC90ZXh0Pgo8L3N2Zz4K" alt="Hero Haulers Logo" class="logo">
-            <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="veteran-badge">🇺🇸 Veteran Owned & Operated</div>
-                <h1>HERO HAULERS</h1>
-                <p>"You Call, We Haul"</p>
-                <div class="veteran-highlight">
-                    <span>🎖️</span>
-                    <span>Serving Our Community with Military Precision</span>
-                    <span>🎖️</span>
-                </div>
-                <a href="#contact" class="cta-button">Get Started Today</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">🗑️</div>
-                    <h3>Trash Bin Rentals</h3>
-                    <p>Professional waste disposal solutions for residential and commercial projects. Clean, reliable bins delivered when you need them.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🏠</div>
-                    <h3>Residential Service</h3>
-                    <p>Perfect for home renovations, cleanouts, and large residential projects. We make waste management simple and affordable.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🏗️</div>
-                    <h3>Commercial Service</h3>
-                    <p>Reliable waste management for contractors, businesses, and construction sites. Professional service you can count on.</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 4rem; padding: 2.5rem; background: linear-gradient(135deg, rgba(178, 34, 52, 0.1), rgba(60, 59, 110, 0.1)); border-radius: 20px; border: 2px solid rgba(255, 215, 0, 0.3);">
-                <h3 style="color: #ffd700; margin-bottom: 1.5rem; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                    <span>🎖️</span>
-                    <span>Veteran-Owned Business</span>
-                    <span>🎖️</span>
-                </h3>
-                <p style="color: #333; font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
-                    As a veteran-owned business, we bring the same dedication, discipline, and commitment to excellence that served our country to every job we complete. When you choose Hero Haulers, you're supporting a local veteran and getting service you can trust.
-                </p>
-                <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; color: #B22234; margin-bottom: 0.5rem;">⚡</div>
-                        <div style="font-weight: bold; color: #333;">Reliable Service</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; color: #3C3B6E; margin-bottom: 0.5rem;">🎯</div>
-                        <div style="font-weight: bold; color: #333;">Mission-Focused</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; color: #ffd700; margin-bottom: 0.5rem;">🏆</div>
-                        <div style="font-weight: bold; color: #333;">Honor & Integrity</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="gallery" class="gallery">
-        <div class="container">
-            <h2 class="section-title">Our Work</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        🚚
-                        <span>Professional bin delivery and pickup service</span>
-                    </div>
-                    <div class="gallery-overlay">
-                        <p>Professional Bin Delivery</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        🗑️
-                        <span>Clean, well-maintained bins for your project</span>
-                    </div>
-                    <div class="gallery-overlay">
-                        <p>Quality Equipment</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        ⏰
-                        <span>Scheduled pickup and delivery on time</span>
-                    </div>
-                    <div class="gallery-overlay">
-                        <p>Timely Service</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        🏠
-                        <span>Residential and commercial waste solutions</span>
-                    </div>
-                    <div class="gallery-overlay">
-                        <p>Residential & Commercial</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        🚛
-                        <span>Clean and professional hauling equipment</span>
-                    </div>
-                    <div class="gallery-overlay">
-                        <p>Professional Equipment</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        ✨
-                        <span>Clean service areas after pickup</span>
-                    </div>
-                    <div class="gallery-overlay">
-                        <p>Clean & Professional</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Photo Upload Instructions -->
-            <div style="text-align: center; margin-top: 3rem; padding: 2.5rem; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 2px dashed rgba(255, 215, 0, 0.4);">
-                <h3 style="color: #ffd700; font-size: 1.5rem; margin-bottom: 1.5rem;">📸 Add Your Photos Here</h3>
-                <div style="background: rgba(0,0,0,0.2); padding: 2rem; border-radius: 10px; margin-bottom: 1.5rem;">
-                    <p style="color: #ccc; font-size: 1rem; margin-bottom: 1rem; font-family: monospace;">
-                        &lt;!-- Replace the gallery-placeholder divs above with your actual photos --&gt;<br>
-                        &lt;img src="path/to/your/photo1.jpg" alt="Bin delivery in action"&gt;
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hero Haulers - Veteran-Owned Trash Bin Rental Service</title>
+<meta content="Hero Haulers - Professional trash bin rental service. Veteran-owned and operated. 'You call, we haul' - reliable dumpster rentals for your project needs." name="description"/>
+<!-- Tailwind CSS for efficient styling -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Font Awesome for icons -->
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Oswald:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Custom CSS -->
+<style>/* Hero Haulers - Custom CSS Styles */
+
+/* Custom Tailwind Configuration */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties for Military Theme */
+:root {
+  --military-dark: #1a2238;
+  --military-gold: #f4c430;
+  --military-green: #4a5d23;
+  --hero-gradient: linear-gradient(135deg, #1a2238 0%, #2d3748 50%, #1a2238 100%);
+  
+  /* Light mode contrast improvements */
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --bg-light: #ffffff;
+  --bg-gray-light: #f9fafb;
+}
+
+/* Font Families */
+.font-oswald {
+  font-family: 'Oswald', sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Military Color Classes */
+.bg-military-dark {
+  background-color: var(--military-dark);
+}
+
+.bg-military-gold {
+  background-color: var(--military-gold);
+}
+
+.text-military-dark {
+  color: var(--military-dark);
+}
+
+.text-military-gold {
+  color: var(--military-gold);
+}
+
+.border-military-gold {
+  border-color: var(--military-gold);
+}
+
+/* Custom Hero Section Styling */
+.hero-section {
+  background: var(--hero-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(244, 196, 48, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(244, 196, 48, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gallery Item Hover Effects */
+.gallery-item img {
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Custom Button Styles */
+.btn-military {
+  background: linear-gradient(45deg, var(--military-gold), #f7d954);
+  color: var(--military-dark);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(244, 196, 48, 0.3);
+}
+
+.btn-military:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 196, 48, 0.4);
+  background: linear-gradient(45deg, #f7d954, var(--military-gold));
+}
+
+.btn-military-outline {
+  background: transparent;
+  color: var(--military-gold);
+  border: 2px solid var(--military-gold);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.btn-military-outline:hover {
+  background: var(--military-gold);
+  color: var(--military-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(244, 196, 48, 0.3);
+}
+
+/* Navigation Styles */
+nav {
+  backdrop-filter: blur(10px);
+  background: rgba(26, 34, 56, 0.95);
+}
+
+nav a {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--military-gold);
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Card Hover Effects */
+.service-card {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.service-card:hover {
+  border-color: var(--military-gold);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Dividers */
+.section-divider {
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--military-gold), transparent);
+  margin: 40px auto;
+  width: 100px;
+}
+
+/* Form Styling */
+.form-input {
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: var(--military-gold);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(244, 196, 48, 0.1);
+}
+
+/* Veteran Badge Styling */
+.veteran-badge {
+  background: linear-gradient(45deg, var(--military-gold), #f7d954);
+  color: var(--military-dark);
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(244, 196, 48, 0.3);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(244, 196, 48, 0.3);
+  }
+  50% {
+    box-shadow: 0 6px 25px rgba(244, 196, 48, 0.5);
+  }
+}
+
+/* Quote Form Animation */
+.quote-form {
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+@keyframes slideUp {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Contact Phone Number Highlight */
+.phone-highlight {
+  color: var(--military-gold);
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.phone-highlight:hover {
+  color: #f7d954;
+  transform: scale(1.05);
+}
+
+/* Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile Menu Animation */
+.mobile-menu {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Loading Animation for Images */
+.gallery-item img {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Testimonial Section (if added later) */
+.testimonial-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-left: 4px solid var(--military-gold);
+  position: relative;
+}
+
+.testimonial-card::before {
+  content: '"';
+  font-size: 4rem;
+  color: var(--military-gold);
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-family: 'Oswald', sans-serif;
+  opacity: 0.3;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-section p {
+    font-size: 1rem;
+  }
+  
+  .service-card {
+    margin-bottom: 2rem;
+  }
+  
+  .gallery-item {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .btn-military,
+  .btn-military-outline {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .hero-section,
+  nav,
+  .gallery-section {
+    display: none;
+  }
+  
+  .contact-section {
+    page-break-before: always;
+  }
+  
+  .phone-highlight {
+    color: #000 !important;
+    font-weight: bold;
+  }
+}
+
+/* Accessibility Enhancements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus States */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--military-gold);
+  outline-offset: 2px;
+}
+
+/* Light Mode Improvements */
+.text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.text-gray-700 {
+  color: #374151 !important;
+}
+
+.text-gray-300 {
+  color: #d1d5db !important;
+}
+
+/* Ensure proper contrast on light backgrounds */
+.bg-gray-50 .text-gray-600,
+.bg-white .text-gray-600 {
+  color: #374151 !important;
+}
+
+.bg-gray-50 .text-gray-700,
+.bg-white .text-gray-700 {
+  color: #1f2937 !important;
+}
+
+/* Service cards text contrast */
+.service-card p,
+.service-card li {
+  color: #374151 !important;
+}
+
+.service-card h3 {
+  color: var(--military-dark) !important;
+}
+
+/* About section text improvements */
+#about p {
+  color: #374151 !important;
+}
+
+#about h4 {
+  color: var(--military-dark) !important;
+}
+
+/* Contact form labels and text */
+.contact-section label {
+  color: #374151 !important;
+  font-weight: 600 !important;
+}
+
+/* Footer improvements for readability */
+footer .text-gray-300 {
+  color: #d1d5db !important;
+}
+
+/* Ensure buttons have proper contrast */
+.bg-military-gold {
+  color: var(--military-dark) !important;
+  font-weight: 600;
+}
+
+/* Form input improvements */
+.form-input,
+input,
+textarea,
+select {
+  color: #1f2937 !important;
+  background-color: #ffffff !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Gallery section improvements */
+.gallery-item h4 {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .hero-section {
+    background: #000;
+    color: #fff;
+  }
+  
+  .bg-military-gold {
+    background: #ffff00;
+    color: #000;
+  }
+  
+  .text-gray-600,
+  .text-gray-700 {
+    color: #000 !important;
+  }
+  
+  .service-card p,
+  .service-card li {
+    color: #000 !important;
+  }
+}
+
+/* Improved contrast for specific sections */
+.bg-gray-50 {
+  background-color: #f8fafc !important;
+}
+
+.bg-white {
+  background-color: #ffffff !important;
+}
+
+/* Ensure dark sections maintain proper contrast */
+.bg-military-dark,
+.hero-section,
+#gallery {
+  color: #ffffff !important;
+}
+
+.bg-military-dark .text-gray-300,
+.hero-section .text-gray-300,
+#gallery .text-gray-300 {
+  color: #d1d5db !important;
+}
+
+/* Service section specific improvements */
+#services {
+  background-color: #f8fafc !important;
+}
+
+#services h2,
+#services h3 {
+  color: var(--military-dark) !important;
+}
+
+#services p,
+#services li {
+  color: #374151 !important;
+}
+
+/* About section improvements */
+#about {
+  background-color: #ffffff !important;
+}
+
+#about h2,
+#about h4 {
+  color: var(--military-dark) !important;
+}
+
+#about p {
+  color: #374151 !important;
+}
+
+/* Contact section form improvements */
+.contact-section .bg-white {
+  background-color: #ffffff !important;
+}
+
+.contact-section .bg-white h3 {
+  color: var(--military-dark) !important;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}</style>
+<meta content="Inlined by ChatGPT" name="generator"/></head>
+<body class="font-inter">
+<!-- Navigation Header -->
+<nav class="bg-military-dark shadow-lg fixed w-full top-0 z-50">
+<div class="container mx-auto px-4">
+<div class="flex justify-between items-center py-4">
+<div class="flex items-center space-x-3">
+<img alt="Hero Haulers Logo" class="h-12 w-auto" src="/img/logo.png"/>
+<div>
+<h1 class="text-white font-oswald text-xl font-bold">HERO HAULERS</h1>
+<p class="text-military-gold text-sm italic">"you call, we haul"</p>
+</div>
+</div>
+<div class="hidden md:flex space-x-6">
+<a class="text-white hover:text-military-gold transition duration-300" href="#services">Services</a>
+<a class="text-white hover:text-military-gold transition duration-300" href="#gallery">Gallery</a>
+<a class="text-white hover:text-military-gold transition duration-300" href="#about">About</a>
+<a class="text-white hover:text-military-gold transition duration-300" href="#contact">Contact</a>
+</div>
+<button class="md:hidden text-white focus:outline-none" id="mobile-menu-btn">
+<i class="fas fa-bars text-xl"></i>
+</button>
+</div>
+<!-- Mobile Menu -->
+<div class="hidden md:hidden pb-4" id="mobile-menu">
+<a class="block text-white hover:text-military-gold py-2 transition duration-300" href="#services">Services</a>
+<a class="block text-white hover:text-military-gold py-2 transition duration-300" href="#gallery">Gallery</a>
+<a class="block text-white hover:text-military-gold py-2 transition duration-300" href="#about">About</a>
+<a class="block text-white hover:text-military-gold py-2 transition duration-300" href="#contact">Contact</a>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-to-br from-military-dark via-gray-800 to-military-dark text-white pt-24">
+<div class="container mx-auto px-4 py-20">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div class="text-center md:text-left">
+<div class="mb-6">
+<span class="bg-military-gold text-military-dark px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide">
+<i class="fas fa-star mr-2"></i>Veteran Owned &amp; Operated
+                        </span>
+</div>
+<h1 class="font-oswald text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                        HERO <span class="text-military-gold">HAULERS</span>
+</h1>
+<p class="text-2xl mb-4 font-oswald italic text-military-gold">"you call, we haul"</p>
+<p class="text-xl mb-8 text-gray-300 leading-relaxed">
+                        Professional trash bin rental service with military precision and reliability. 
+                        Serving our community with the same dedication we served our country.
                     </p>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: left;">
-                    <div>
-                        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">📋 Photo Ideas:</h4>
-                        <ul style="color: #ccc; font-size: 0.9rem; margin: 0; padding-left: 1rem;">
-                            <li>Truck delivering bins</li>
-                            <li>Clean bins ready for use</li>
-                            <li>Pickup in progress</li>
-                            <li>Before/after job sites</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">💡 Tips:</h4>
-                        <ul style="color: #ccc; font-size: 0.9rem; margin: 0; padding-left: 1rem;">
-                            <li>Use JPG or PNG format</li>
-                            <li>Keep files under 2MB</li>
-                            <li>Show your professional service</li>
-                            <li>Include your truck/equipment</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="bg-military-gold text-military-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-500 transition duration-300 transform hover:scale-105 text-center" href="#contact">
+<i class="fas fa-phone mr-2"></i>Get A Quote
+                        </a>
+<a class="border-2 border-military-gold text-military-gold px-8 py-4 rounded-lg font-semibold text-lg hover:bg-military-gold hover:text-military-dark transition duration-300 text-center" href="#services">
+<i class="fas fa-dumpster mr-2"></i>Our Services
+                        </a>
+</div>
+</div>
+<div class="text-center">
+<img alt="Hero Haulers Logo" class="w-64 md:w-80 mx-auto drop-shadow-2xl" src="/img/logo.png"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Section -->
+<section class="py-20 bg-gray-50" id="services">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="font-oswald text-4xl md:text-5xl font-bold text-military-dark mb-4">
+                    OUR <span class="text-military-gold">SERVICES</span>
+</h2>
+<p class="text-xl text-gray-700 max-w-3xl mx-auto">
+                    Professional dumpster rental services for residential, commercial, and construction projects. 
+                    Reliable delivery and pickup with military precision.
+                </p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Residential Service -->
+<div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 service-card">
+<div class="bg-military-gold text-military-dark w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+<i class="fas fa-home text-2xl"></i>
+</div>
+<h3 class="font-oswald text-2xl font-bold text-military-dark mb-4">Residential</h3>
+<p class="text-gray-800 mb-6 font-medium">Perfect for home cleanouts, renovations, and yard projects. Various sizes available to fit your needs.</p>
+<ul class="text-left text-gray-800 space-y-2">
+<li><i class="fas fa-check text-military-gold mr-2"></i>Home renovations</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Spring cleaning</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Yard waste removal</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Estate cleanouts</li>
+</ul>
+</div>
+<!-- Commercial Service -->
+<div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 service-card">
+<div class="bg-military-gold text-military-dark w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+<i class="fas fa-building text-2xl"></i>
+</div>
+<h3 class="font-oswald text-2xl font-bold text-military-dark mb-4">Commercial</h3>
+<p class="text-gray-800 mb-6 font-medium">Reliable waste management solutions for businesses, retail locations, and office buildings.</p>
+<ul class="text-left text-gray-800 space-y-2">
+<li><i class="fas fa-check text-military-gold mr-2"></i>Office cleanouts</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Retail renovations</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Restaurant waste</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Regular pickups</li>
+</ul>
+</div>
+<!-- Construction Service -->
+<div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 service-card">
+<div class="bg-military-gold text-military-dark w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+<i class="fas fa-hard-hat text-2xl"></i>
+</div>
+<h3 class="font-oswald text-2xl font-bold text-military-dark mb-4">Construction</h3>
+<p class="text-gray-800 mb-6 font-medium">Heavy-duty dumpsters for construction sites, demolition projects, and contractors.</p>
+<ul class="text-left text-gray-800 space-y-2">
+<li><i class="fas fa-check text-military-gold mr-2"></i>Demolition debris</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Construction waste</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Roofing projects</li>
+<li><i class="fas fa-check text-military-gold mr-2"></i>Contractor services</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Gallery Section -->
+<section class="py-20 bg-military-dark" id="gallery">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="font-oswald text-4xl md:text-5xl font-bold text-white mb-4">
+                    OUR <span class="text-military-gold">WORK</span>
+</h2>
+<p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    See our professional dumpster rental service in action. Quality equipment and reliable service on every job.
+                </p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="gallery-item group cursor-pointer">
+<img alt="Dirt hauling service" class="w-full h-64 object-cover rounded-lg shadow-lg group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105" src="https://page.gensparksite.com/v1/base64_upload/311ca77921ddc4ca6eda815b90255bd5"/>
+<div class="mt-3 text-center">
+<h4 class="text-white font-semibold">Soil &amp; Dirt Hauling</h4>
+</div>
+</div>
+<div class="gallery-item group cursor-pointer">
+<img alt="Professional dump trailer service" class="w-full h-64 object-cover rounded-lg shadow-lg group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105" src="https://page.gensparksite.com/v1/base64_upload/d039738490a1dccf4502d4e0b6264e7a"/>
+<div class="mt-3 text-center">
+<h4 class="text-white font-semibold">Professional Equipment</h4>
+</div>
+</div>
+<div class="gallery-item group cursor-pointer">
+<img alt="Construction site service" class="w-full h-64 object-cover rounded-lg shadow-lg group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105" src="https://page.gensparksite.com/v1/base64_upload/b8859950dda5e49dde24163a58f336da"/>
+<div class="mt-3 text-center">
+<h4 class="text-white font-semibold">Construction Sites</h4>
+</div>
+</div>
+<div class="gallery-item group cursor-pointer">
+<img alt="Heavy duty truck and trailer" class="w-full h-64 object-cover rounded-lg shadow-lg group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105" src="https://page.gensparksite.com/v1/base64_upload/a17c1cb73ebfd464cf1b1a060b0c0e97"/>
+<div class="mt-3 text-center">
+<h4 class="text-white font-semibold">Heavy Duty Service</h4>
+</div>
+</div>
+<div class="gallery-item group cursor-pointer">
+<img alt="Clean dumpster ready for use" class="w-full h-64 object-cover rounded-lg shadow-lg group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105" src="https://page.gensparksite.com/v1/base64_upload/cfcd3ba828549410b8d892438e0e39c2"/>
+<div class="mt-3 text-center">
+<h4 class="text-white font-semibold">Clean Equipment</h4>
+</div>
+</div>
+<div class="gallery-item group cursor-pointer">
+<img alt="Gravel delivery service" class="w-full h-64 object-cover rounded-lg shadow-lg group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105" src="https://page.gensparksite.com/v1/base64_upload/ab4506c9b3de855d496f2193f6dc16f0"/>
+<div class="mt-3 text-center">
+<h4 class="text-white font-semibold">Material Delivery</h4>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-20 bg-white" id="about">
+<div class="container mx-auto px-4">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div>
+<div class="mb-6">
+<span class="bg-military-gold text-military-dark px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide">
+<i class="fas fa-flag-usa mr-2"></i>Veteran Owned
+                        </span>
+</div>
+<h2 class="font-oswald text-4xl md:text-5xl font-bold text-military-dark mb-6">
+                        SERVING WITH <span class="text-military-gold">HONOR</span>
+</h2>
+<p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                        Hero Haulers is a veteran-owned and operated business, bringing military values of 
+                        reliability, integrity, and excellence to every job. We understand the importance 
+                        of completing missions on time and to specification.
+                    </p>
+<p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                        Our commitment to service doesn't end with our military careers. We continue 
+                        to serve our community with the same dedication, providing dependable waste 
+                        management solutions for projects of all sizes.
+                    </p>
+<div class="grid grid-cols-2 gap-6">
+<div class="text-center">
+<div class="bg-military-gold text-military-dark w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+<i class="fas fa-medal text-xl"></i>
+</div>
+<h4 class="font-semibold text-military-dark">Veteran Owned</h4>
+<p class="text-gray-700 text-sm">Proudly serving our community</p>
+</div>
+<div class="text-center">
+<div class="bg-military-gold text-military-dark w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+<i class="fas fa-clock text-xl"></i>
+</div>
+<h4 class="font-semibold text-military-dark">Reliable</h4>
+<p class="text-gray-700 text-sm">On-time delivery &amp; pickup</p>
+</div>
+</div>
+</div>
+<div class="text-center">
+<img alt="Hero Haulers branded merchandise" class="w-full max-w-lg mx-auto rounded-lg shadow-xl" src="https://page.gensparksite.com/v1/base64_upload/97e8d01440b68064ecfd1789aa294e0e"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="py-20 bg-gradient-to-br from-military-dark to-gray-900 text-white" id="contact">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="font-oswald text-4xl md:text-5xl font-bold mb-4">
+                    GET A <span class="text-military-gold">QUOTE</span>
+</h2>
+<p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Ready to get started? Contact us today for a free quote on your dumpster rental needs.
+                </p>
+</div>
+<div class="grid md:grid-cols-2 gap-12">
+<div>
+<h3 class="font-oswald text-2xl font-bold mb-6 text-military-gold">Contact Information</h3>
+<div class="space-y-6">
+<div class="flex items-center space-x-4">
+<div class="bg-military-gold text-military-dark w-12 h-12 rounded-full flex items-center justify-center">
+<i class="fas fa-phone text-xl"></i>
+</div>
+<div>
+<h4 class="font-semibold text-lg">Phone</h4>
+<p class="text-gray-300">Call for immediate service</p>
+<a class="text-military-gold hover:text-yellow-400 text-lg font-semibold" href="tel:845-663-3872">
+                                    (845) 663-3872
+                                </a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="bg-military-gold text-military-dark w-12 h-12 rounded-full flex items-center justify-center">
+<i class="fas fa-envelope text-xl"></i>
+</div>
+<div>
+<h4 class="font-semibold text-lg">Email</h4>
+<p class="text-gray-300">Get a quote online</p>
+<a class="text-military-gold hover:text-yellow-400" href="mailto:info@herohaulers.com">
+                                    info@herohaulers.com
+                                </a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="bg-military-gold text-military-dark w-12 h-12 rounded-full flex items-center justify-center">
+<i class="fas fa-clock text-xl"></i>
+</div>
+<div>
+<h4 class="font-semibold text-lg">Hours</h4>
+<p class="text-gray-300">Monday - Saturday: 7:00 AM - 6:00 PM</p>
+<p class="text-gray-300">Sunday: Emergency calls only</p>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<h4 class="font-oswald text-xl font-bold mb-4 text-military-gold">Why Choose Hero Haulers?</h4>
+<ul class="space-y-3">
+<li class="flex items-center space-x-3">
+<i class="fas fa-star text-military-gold"></i>
+<span>Veteran-owned and operated</span>
+</li>
+<li class="flex items-center space-x-3">
+<i class="fas fa-star text-military-gold"></i>
+<span>Reliable and professional service</span>
+</li>
+<li class="flex items-center space-x-3">
+<i class="fas fa-star text-military-gold"></i>
+<span>Competitive pricing</span>
+</li>
+<li class="flex items-center space-x-3">
+<i class="fas fa-star text-military-gold"></i>
+<span>Clean, well-maintained equipment</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="bg-white rounded-xl p-8 shadow-2xl">
+<h3 class="font-oswald text-2xl font-bold text-military-dark mb-6">Request a Quote</h3>
+<form class="space-y-6" id="quote-form">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-gray-900 font-semibold mb-2">First Name</label>
+<input class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-military-gold focus:border-transparent text-gray-900 bg-white" required="" type="text"/>
+</div>
+<div>
+<label class="block text-gray-900 font-semibold mb-2">Last Name</label>
+<input class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-military-gold focus:border-transparent text-gray-900 bg-white" required="" type="text"/>
+</div>
+</div>
+<div>
+<label class="block text-gray-900 font-semibold mb-2">Phone Number</label>
+<input class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-military-gold focus:border-transparent text-gray-900 bg-white" required="" type="tel"/>
+</div>
+<div>
+<label class="block text-gray-900 font-semibold mb-2">Email</label>
+<input class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-military-gold focus:border-transparent text-gray-900 bg-white" required="" type="email"/>
+</div>
+<div>
+<label class="block text-gray-900 font-semibold mb-2">Service Type</label>
+<select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-military-gold focus:border-transparent text-gray-900 bg-white" required="">
+<option value="">Select a service</option>
+<option value="residential">Residential</option>
+<option value="commercial">Commercial</option>
+<option value="construction">Construction</option>
+</select>
+</div>
+<div>
+<label class="block text-gray-900 font-semibold mb-2">Project Details</label>
+<textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-military-gold focus:border-transparent text-gray-900 bg-white" placeholder="Tell us about your project..." required="" rows="4"></textarea>
+</div>
+<button class="w-full bg-military-gold text-military-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-500 transition duration-300 transform hover:scale-105" type="submit">
+<i class="fas fa-paper-plane mr-2"></i>Request Quote
+                        </button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-military-dark text-white py-12">
+<div class="container mx-auto px-4">
+<div class="grid md:grid-cols-3 gap-8">
+<div>
+<div class="flex items-center space-x-3 mb-4">
+<img alt="Hero Haulers Logo" class="h-10 w-auto" src="/img/logo.png"/>
+<div>
+<h3 class="font-oswald text-xl font-bold">HERO HAULERS</h3>
+<p class="text-military-gold text-sm italic">"you call, we haul"</p>
+</div>
+</div>
+<p class="text-gray-300 mb-4">
+                        Veteran-owned trash bin rental service providing reliable waste management solutions with military precision.
+                    </p>
+<div class="flex space-x-4">
+<a class="text-military-gold hover:text-yellow-400 transition duration-300" href="#">
+<i class="fab fa-facebook text-xl"></i>
+</a>
+<a class="text-military-gold hover:text-yellow-400 transition duration-300" href="#">
+<i class="fab fa-instagram text-xl"></i>
+</a>
+<a class="text-military-gold hover:text-yellow-400 transition duration-300" href="#">
+<i class="fab fa-google text-xl"></i>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-oswald text-lg font-bold mb-4 text-military-gold">Services</h4>
+<ul class="space-y-2 text-gray-300">
+<li><a class="hover:text-military-gold transition duration-300" href="#services">Residential Dumpsters</a></li>
+<li><a class="hover:text-military-gold transition duration-300" href="#services">Commercial Waste</a></li>
+<li><a class="hover:text-military-gold transition duration-300" href="#services">Construction Debris</a></li>
+<li><a class="hover:text-military-gold transition duration-300" href="#services">Material Delivery</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-oswald text-lg font-bold mb-4 text-military-gold">Contact</h4>
+<div class="space-y-2 text-gray-300">
+<p><i class="fas fa-phone mr-2 text-military-gold"></i>(845) 663-3872</p>
+<p><i class="fas fa-envelope mr-2 text-military-gold"></i>info@herohaulers.com</p>
+<p><i class="fas fa-flag-usa mr-2 text-military-gold"></i>Veteran Owned &amp; Operated</p>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-8 pt-8 text-center">
+<p class="text-gray-300">
+                    © 2025 Hero Haulers. All rights reserved. Proudly serving our community with honor.
+                </p>
+</div>
+</div>
+</footer>
+<!-- JavaScript -->
+<script>// Hero Haulers - Main JavaScript File
 
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <div class="contact-content">
-                <div class="contact-form">
-                    <h3>📝 Request Service</h3>
-                    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-                        <div class="form-row">
-                            <label for="name">Full Name *</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        
-                        <div class="form-row">
-                            <label for="email">Email Address *</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        
-                        <div class="form-row">
-                            <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" name="phone" required>
-                        </div>
-                        
-                        <div class="form-row">
-                            <label for="address">Service Address</label>
-                            <input type="text" id="address" name="address" placeholder="Street address, city, state">
-                        </div>
-                        
-                        <div class="form-row">
-                            <label for="service-type">Service Type</label>
-                            <select id="service-type" name="service-type">
-                                <option value="">Select service type</option>
-                                <option value="residential">Residential</option>
-                                <option value="commercial">Commercial</option>
-                                <option value="construction">Construction/Contractor</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-row">
-                            <label for="timeline">When do you need service?</label>
-                            <select id="timeline" name="timeline">
-                                <option value="">Select timeline</option>
-                                <option value="asap">ASAP</option>
-                                <option value="this-week">This week</option>
-                                <option value="next-week">Next week</option>
-                                <option value="flexible">Flexible</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-row">
-                            <label for="message">Project Details</label>
-                            <textarea id="message" name="message" placeholder="Tell us about your project, how long you'll need the bin, and any special requirements..."></textarea>
-                        </div>
-                        
-                        <input type="hidden" name="_subject" value="New Service Request - Hero Haulers">
-                        <button type="submit" class="form-submit">Send Request</button>
-                    </form>
-                    
-                    <div class="setup-note">
-                        <h4>🚨 Setup Required</h4>
-                        <p><strong>To receive emails:</strong> Replace YOUR_FORM_ID with your actual Formspree form ID</p>
-                        <p><strong>Alternative:</strong> Use Netlify Forms or EmailJS</p>
-                    </div>
-                </div>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all functionality
+    initMobileMenu();
+    initSmoothScrolling();
+    initQuoteForm();
+    initGalleryLightbox();
+    initScrollAnimations();
+    initContactForm();
+    
+    console.log('Hero Haulers website initialized successfully!');
+});
+
+// Mobile Menu Toggle
+function initMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Animate the hamburger icon
+            const icon = this.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+        
+        // Close mobile menu when clicking on links
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+    }
+}
+
+// Smooth Scrolling for Navigation Links
+function initSmoothScrolling() {
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const targetPosition = targetSection.offsetTop - navHeight - 20;
                 
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">📞</div>
-                        <div class="contact-details">
-                            <h4>Call Us</h4>
-                            <p><a href="tel:845-863-3072" class="phone-number">845-863-3072</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div class="contact-details">
-                            <h4>Service Area</h4>
-                            <p>Local area and surrounding communities</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">🕒</div>
-                        <div class="contact-details">
-                            <h4>Hours</h4>
-                            <p>Available for scheduling<br>Prompt and reliable service</p>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 2rem;">
-                        <h3 style="color: #ffd700; margin-bottom: 1.5rem; font-size: 1.8rem;">Why Choose Hero Haulers?</h3>
-                        <div style="background: rgba(178, 34, 52, 0.1); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid #B22234;">
-                            <p style="color: #ffd700; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">
-                                <span>🇺🇸</span>
-                                <span>VETERAN OWNED & OPERATED</span>
-                            </p>
-                            <p style="color: #ccc; font-size: 0.95rem; margin: 0;">Supporting veterans and serving our community with military-grade excellence</p>
-                        </div>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
-                                Military precision and reliability
-                            </li>
-                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
-                                Professional and reliable service
-                            </li>
-                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
-                                Clean, well-maintained equipment
-                            </li>
-                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
-                                Timely delivery and pickup
-                            </li>
-                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
-                                Competitive pricing
-                            </li>
-                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                <span style="color: #ffd700; margin-right: 1rem; font-size: 1.2rem;">✓</span>
-                                Local veteran business you can trust
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
 
-    <footer>
-        <div class="container">
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDQwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMDAgODBMMTIwIDUwTDI4MCA1MEwyODAgMTEwTDEyMCAxMTBMMTAwIDgwWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZkNzAwIiBzdHJva2Utd2lkdGg9IjIiLz4KPHN0YXIgY3g9IjEzNSIgY3k9IjM1IiByPSI4IiBmaWxsPSIjZmZkNzAwIi8+CjxzdGFyIGN4PSIxNjAiIGN5PSIzNSIgcj0iOCIgZmlsbD0iI2ZmZDcwMCIvPgo8c3RhciBjeD0iMTg1IiBjeT0iMzUiIHI9IjgiIGZpbGw9IiNmZmQ3MDAiLz4KPHRleHQgeD0iMjAiIHk9IjEwNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI2ZmZDcwMCI+SEVSTCBIQVVMRVRT48L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC1zdHlsZT0iaXRhbGljIiBmaWxsPSIjZmZkNzAwIj4ieW91IGNhbGwsIHdlIGhhdWwiPC90ZXh0Pgo8L3N2Zz4K" alt="Hero Haulers Logo" class="footer-logo">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 1rem;">
-                <span style="color: #B22234; font-size: 1.5rem;">🇺🇸</span>
-                <span style="color: #ffd700; font-weight: bold; font-size: 1.1rem;">PROUDLY VETERAN OWNED</span>
-                <span style="color: #B22234; font-size: 1.5rem;">🇺🇸</span>
+// Quote Form Handling
+function initQuoteForm() {
+    const quoteForm = document.getElementById('quote-form');
+    
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const formObj = {};
+            formData.forEach((value, key) => {
+                formObj[key] = value;
+            });
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission (replace with actual form handling)
+            setTimeout(() => {
+                showNotification('Quote request submitted successfully! We\'ll contact you within 24 hours.', 'success');
+                this.reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+    }
+}
+
+// Gallery Lightbox Effect
+function initGalleryLightbox() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    galleryItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const img = this.querySelector('img');
+            const title = this.querySelector('h4').textContent;
+            
+            if (img) {
+                createLightbox(img.src, img.alt, title);
+            }
+        });
+    });
+}
+
+// Create Lightbox Modal
+function createLightbox(imageSrc, imageAlt, imageTitle) {
+    // Create lightbox elements
+    const lightbox = document.createElement('div');
+    lightbox.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4';
+    lightbox.style.cursor = 'pointer';
+    
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'relative max-w-4xl max-h-full';
+    
+    const image = document.createElement('img');
+    image.src = imageSrc;
+    image.alt = imageAlt;
+    image.className = 'max-w-full max-h-full object-contain rounded-lg shadow-2xl';
+    
+    const title = document.createElement('div');
+    title.textContent = imageTitle;
+    title.className = 'absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 text-center font-semibold rounded-b-lg';
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+    closeBtn.className = 'absolute top-4 right-4 text-white text-2xl bg-black bg-opacity-50 w-10 h-10 rounded-full hover:bg-opacity-75 transition duration-300';
+    
+    // Assemble lightbox
+    imageContainer.appendChild(image);
+    imageContainer.appendChild(title);
+    imageContainer.appendChild(closeBtn);
+    lightbox.appendChild(imageContainer);
+    document.body.appendChild(lightbox);
+    
+    // Add event listeners
+    function closeLightbox() {
+        document.body.removeChild(lightbox);
+        document.body.style.overflow = 'auto';
+    }
+    
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    closeBtn.addEventListener('click', closeLightbox);
+    
+    // Prevent body scrolling
+    document.body.style.overflow = 'hidden';
+    
+    // Escape key to close
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+}
+
+// Scroll Animations
+function initScrollAnimations() {
+    const animatedElements = document.querySelectorAll('.service-card, .gallery-item, .contact-card');
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    animatedElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(element);
+    });
+}
+
+// Contact Form Handling
+function initContactForm() {
+    // Phone number formatting
+    const phoneInputs = document.querySelectorAll('input[type="tel"]');
+    phoneInputs.forEach(input => {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 6) {
+                value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+            } else if (value.length >= 3) {
+                value = value.replace(/(\d{3})(\d{3})/, '($1) $2');
+            }
+            e.target.value = value;
+        });
+    });
+    
+    // Form validation
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('blur', validateField);
+            input.addEventListener('input', clearFieldError);
+        });
+    });
+}
+
+// Field Validation
+function validateField(e) {
+    const field = e.target;
+    const value = field.value.trim();
+    
+    // Remove existing error styling
+    field.classList.remove('border-red-500');
+    
+    let isValid = true;
+    let errorMessage = '';
+    
+    if (field.hasAttribute('required') && !value) {
+        isValid = false;
+        errorMessage = 'This field is required';
+    } else if (field.type === 'email' && value && !isValidEmail(value)) {
+        isValid = false;
+        errorMessage = 'Please enter a valid email address';
+    } else if (field.type === 'tel' && value && !isValidPhone(value)) {
+        isValid = false;
+        errorMessage = 'Please enter a valid phone number';
+    }
+    
+    if (!isValid) {
+        field.classList.add('border-red-500');
+        showFieldError(field, errorMessage);
+    } else {
+        clearFieldError(field);
+    }
+    
+    return isValid;
+}
+
+// Clear Field Error
+function clearFieldError(field) {
+    if (typeof field === 'object' && field.target) {
+        field = field.target;
+    }
+    
+    field.classList.remove('border-red-500');
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+}
+
+// Show Field Error
+function showFieldError(field, message) {
+    clearFieldError(field);
+    
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error text-red-500 text-sm mt-1';
+    errorDiv.textContent = message;
+    
+    field.parentNode.appendChild(errorDiv);
+}
+
+// Email Validation
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Phone Validation
+function isValidPhone(phone) {
+    const phoneRegex = /^\(\d{3}\)\s\d{3}-\d{4}$/;
+    return phoneRegex.test(phone);
+}
+
+// Notification System
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform translate-x-full transition-transform duration-300`;
+    
+    // Set notification style based on type
+    switch (type) {
+        case 'success':
+            notification.classList.add('bg-green-500', 'text-white');
+            break;
+        case 'error':
+            notification.classList.add('bg-red-500', 'text-white');
+            break;
+        case 'warning':
+            notification.classList.add('bg-yellow-500', 'text-black');
+            break;
+        default:
+            notification.classList.add('bg-blue-500', 'text-white');
+    }
+    
+    notification.innerHTML = `
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} mr-2"></i>
+                <span>${message}</span>
             </div>
-            <p>&copy; 2025 Hero Haulers. All rights reserved. | Serving our community with honor.</p>
+            <button class="ml-4 text-lg hover:opacity-75" onclick="this.parentNode.parentNode.remove()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
-    </footer>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Slide in
+    setTimeout(() => {
+        notification.classList.remove('translate-x-full');
+    }, 100);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.classList.add('translate-x-full');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }
+    }, 5000);
+}
+
+// Navbar Background on Scroll
+window.addEventListener('scroll', function() {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 100) {
+        nav.classList.add('backdrop-blur-lg');
+        nav.style.background = 'rgba(26, 34, 56, 0.98)';
+    } else {
+        nav.style.background = 'rgba(26, 34, 56, 0.95)';
+    }
+});
+
+// Call to Action Phone Number Click Tracking
+document.addEventListener('click', function(e) {
+    if (e.target.matches('a[href^="tel:"]')) {
+        // Track phone number clicks (can be integrated with analytics)
+        console.log('Phone number clicked:', e.target.href);
+        
+        // Optional: Show confirmation
+        if (window.innerWidth > 768) { // Desktop only
+            showNotification('Calling Hero Haulers...', 'info');
+        }
+    }
+});
+
+// Service Cards Interaction
+document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-8px) scale(1.02)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+    });
+});
+
+// Initialize Page Load Analytics
+function trackPageLoad() {
+    // This function can be extended to integrate with Google Analytics or other tracking
+    const startTime = performance.now();
+    
+    window.addEventListener('load', function() {
+        const loadTime = performance.now() - startTime;
+        console.log(`Hero Haulers page loaded in ${Math.round(loadTime)}ms`);
+    });
+}
+
+trackPageLoad();
+
+// Accessibility Enhancements
+document.addEventListener('keydown', function(e) {
+    // Skip to main content with Tab key
+    if (e.key === 'Tab' && !e.shiftKey && document.activeElement === document.body) {
+        const mainContent = document.querySelector('main') || document.querySelector('#services');
+        if (mainContent) {
+            mainContent.focus();
+            e.preventDefault();
+        }
+    }
+});
+
+// Print Styles Support
+window.addEventListener('beforeprint', function() {
+    // Expand all sections for printing
+    const hiddenElements = document.querySelectorAll('.hidden');
+    hiddenElements.forEach(el => {
+        el.classList.add('print-show');
+        el.classList.remove('hidden');
+    });
+});
+
+window.addEventListener('afterprint', function() {
+    // Restore hidden elements after printing
+    const printShowElements = document.querySelectorAll('.print-show');
+    printShowElements.forEach(el => {
+        el.classList.remove('print-show');
+        el.classList.add('hidden');
+    });
+});
+
+// Performance Monitoring
+if ('PerformanceObserver' in window) {
+    const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+            if (entry.entryType === 'largest-contentful-paint') {
+                console.log('LCP:', entry.startTime);
+            }
+        }
+    });
+    
+    observer.observe({entryTypes: ['largest-contentful-paint']});
+}</script>
 </body>
 </html>
