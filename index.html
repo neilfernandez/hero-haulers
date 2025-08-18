@@ -1030,32 +1030,25 @@ function initQuoteForm() {
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
             submitBtn.disabled = true;
-            
-            fetch("https://script.google.com/macros/s/AKfycby8w5GkGxh1dChfFiT4VVM2rLowfU4m7-UVJ9f7yS17H1Mzi9kZhJ4KsKhWRG46OY1GzQ/exec", {
-              method: "POST",
-              body: JSON.stringify({
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                phone: formData.phone,
-                email: formData.email,
-                service: formData.serviceType,
-                details: formData.projectDetails
-              }),
-              headers: { "Content-Type": "application/json" }
-            })
-            .then(res => res.text())
-            .then(txt => alert("Message sent!"))
-            .catch(err => alert("Error: " + err));
 
-            // Simulate form submission (replace with actual form handling)
-            setTimeout(() => {
+            fetch("https://script.google.com/macros/s/AKfycbxuW6lmhLxZM5oozhbI4VSOVgH8wabpSFGJzq53lwMy6n4dXlMTtRCIFIPgNUmeD3rulw/exec", {
+              method: "POST",
+              body: formData // sends as normal form data
+            })
+            .then(res => res.json())
+            .then(data => {
+              console.log('data:',data)
+              if (data.status === "success") {
                 showNotification('Quote request submitted successfully! We\'ll contact you within 24 hours.', 'success');
                 this.reset();
-                
                 // Reset button
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
-            }, 2000);
+              } else {
+                showNotification('Something went wrong. Please try again.', 'error');
+              }
+            })
+            .catch(err => showNotification("Error: " + err, 'error'));
         });
     }
 }
